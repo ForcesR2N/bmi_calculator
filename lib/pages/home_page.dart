@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: [
         _genderSelector(),
+        const SizedBox(height: 20),
+        _heightSelector(),
       ],
     );
   }
@@ -59,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                       : Colors.black,
                 ),
               ),
-              Text(
+              const Text(
                 "Male",
                 style: TextStyle(fontSize: 20),
               ),
@@ -81,11 +83,38 @@ class _HomePageState extends State<HomePage> {
                       : Colors.black,
                 ),
               ),
-              Text(
+              const Text(
                 "Female",
                 style: TextStyle(fontSize: 20),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _heightSelector() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("$_height cm"),
+          RotatedBox(
+            quarterTurns: 3,
+            child: Slider(
+              min: 0,
+              max: 240,
+              value: _height.toDouble(),
+              onChanged: (value) {
+                setState(() {
+                  _height = value.toInt();
+                });
+              },
+            ),
           ),
         ],
       ),
