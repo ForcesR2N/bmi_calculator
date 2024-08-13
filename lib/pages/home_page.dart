@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -7,8 +10,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-int _selectedGender = 0, _height = 170, _weight = 50, _age = 15;
-double _bmi = 0;
+int _selectedGender = 0, _weight = 50, _age = 15;
+double _bmi = 0, _height = 170.0;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -97,26 +100,36 @@ class _HomePageState extends State<HomePage> {
   Widget _heightSelector() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("$_height cm"),
-          RotatedBox(
-            quarterTurns: 3,
-            child: Slider(
-              min: 0,
-              max: 240,
-              value: _height.toDouble(),
-              onChanged: (value) {
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${_height.toStringAsFixed(2)} CM",
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SfSlider.vertical(
+              min: 0.0,
+              max: 200.0,
+              value: _height,
+              interval: 20,
+              showTicks: true,
+              showLabels: true,
+              enableTooltip: true,
+              minorTicksPerInterval: 1,
+              onChanged: (dynamic value) {
                 setState(() {
-                  _height = value.toInt();
+                  _height = value;
                 });
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
