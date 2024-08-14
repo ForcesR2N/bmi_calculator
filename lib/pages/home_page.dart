@@ -112,15 +112,15 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 300,
-                    width: 50,
+                    height: 320,
+                    width: 70,
                     child: SfSlider.vertical(
                       min: 0.0,
                       max: 200.0,
@@ -137,6 +137,14 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    width: 120,
+                  ),
+                  Image.asset(
+                    'lib/images/human_height.png',
+                    height: 320,
+                    fit: BoxFit.cover,
+                  )
                 ],
               ),
             ],
