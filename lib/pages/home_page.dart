@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       body: _BuildUI(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(
+        child: const Icon(
           Icons.calculate,
         ),
       ),
@@ -109,9 +109,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text(
                 "${_height.toStringAsFixed(0)} CM",
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 120,
                   ),
                   Image.asset(
