@@ -97,36 +97,50 @@ class _HomePageState extends State<HomePage> {
 
   Widget _heightSelector() {
     return Container(
+      color: Colors.grey[300],
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Align(
         alignment: Alignment.topLeft,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "${_height.toStringAsFixed(2)} CM",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            SfSlider.vertical(
-              min: 0.0,
-              max: 200.0,
-              value: _height,
-              interval: 20,
-              showTicks: true,
-              showLabels: true,
-              enableTooltip: true,
-              minorTicksPerInterval: 1,
-              onChanged: (dynamic value) {
-                setState(() {
-                  _height = value;
-                });
-              },
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 50),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${_height.toStringAsFixed(0)} CM",
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 300,
+                    width: 50,
+                    child: SfSlider.vertical(
+                      min: 0.0,
+                      max: 200.0,
+                      value: _height,
+                      interval: 20,
+                      showTicks: true,
+                      showLabels: true,
+                      enableTooltip: true,
+                      minorTicksPerInterval: 1,
+                      onChanged: (dynamic value) {
+                        setState(() {
+                          _height = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
