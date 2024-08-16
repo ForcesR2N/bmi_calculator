@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -8,8 +10,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-int _selectedGender = 0, _weight = 50, _age = 15;
-double _bmi = 0, _height = 170.0;
+int _selectedGender = 0, _age = 15;
+double _bmi = 0, _height = 170.0, _weight = 50;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
         _genderSelector(),
         const SizedBox(height: 20),
         _heightSelector(),
+        _weightSelector(),
       ],
     );
   }
@@ -150,6 +153,41 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _weightSelector() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 100),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "${_weight.toStringAsFixed(0)}KG",
+            style: TextStyle(fontSize: 30),
+          ),
+          Container(
+            height: 50,
+            width: 350,
+            child: SfSlider(
+              min: 0.0,
+              max: 200.0,
+              value: _weight,
+              interval: 20,
+              showTicks: false,
+              showLabels: false,
+              enableTooltip: false,
+              minorTicksPerInterval: 1,
+              onChanged: (dynamic value) {
+                setState(() {
+                  _weight = value;
+                });
+              },
+            ),
+          )
+        ],
       ),
     );
   }
