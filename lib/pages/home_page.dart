@@ -77,7 +77,9 @@ class _HomePageState extends State<HomePage> {
       children: [
         IconButton(
           iconSize: 70,
-          icon: Icon(icon, color: isSelected ? Theme.of(context).primaryColor : Colors.black),
+          icon: Icon(icon,
+              color:
+                  isSelected ? Theme.of(context).primaryColor : Colors.black),
           onPressed: onTap,
         ),
         Text(gender, style: const TextStyle(fontSize: 20)),
@@ -89,15 +91,23 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "${_height.toStringAsFixed(0)} CM",
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Row(
@@ -136,41 +146,62 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _weightSelector() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          "${_weight.toStringAsFixed(0)} KG",
-          style: const TextStyle(fontSize: 30),
-        ),
-        const SizedBox(height: 10),
-        Container(
-          height: 50,
-          width: double.infinity,
-          child: SfSlider(
-            min: 0.0,
-            max: 200.0,
-            value: _weight,
-            interval: 20,
-            showTicks: false,
-            showLabels: false,
-            enableTooltip: false,
-            minorTicksPerInterval: 1,
-            onChanged: (dynamic value) {
-              setState(() {
-                _weight = value;
-              });
-            },
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
-        ),
-      ],
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "${_weight.toStringAsFixed(0)} KG",
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            height: 50,
+            width: double.infinity,
+            child: SfSlider(
+              min: 0.0,
+              max: 200.0,
+              value: _weight,
+              interval: 20,
+              showTicks: false,
+              showLabels: false,
+              enableTooltip: false,
+              minorTicksPerInterval: 1,
+              onChanged: (dynamic value) {
+                setState(() {
+                  _weight = value;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _calculateButton() {
     return ElevatedButton(
       onPressed: _calculateBMI,
-      child: const Text('Calculate BMI'),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      child: const Text('Calculate BMI', style: TextStyle(fontSize: 20)),
     );
   }
 
