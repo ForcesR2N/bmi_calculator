@@ -8,20 +8,38 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-int _selectedGender = 0, _age = 15;
-double _bmi = 0, _height = 170.0, _weight = 50;
-
 class _HomePageState extends State<HomePage> {
+  int _selectedGender = 0;
+  double _height = 170.0;
+  double _weight = 50;
+  int _age = 15;
+  double _bmi = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("BMI Calculator"),
+        title: const Text("BMI Calculator"),
         centerTitle: true,
       ),
-      body: _BuildUI(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            children: [
+              _genderSelector(),
+              const SizedBox(height: 20),
+              _heightSelector(),
+              const SizedBox(height: 40),
+              _weightSelector(),
+              const SizedBox(height: 20),
+              _calculateButton(),
+            ],
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _calculateBMI,
         child: const Icon(
           Icons.calculate,
         ),
@@ -29,164 +47,136 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _BuildUI() {
-    return Column(
+  Widget _genderSelector() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _genderSelector(),
-        const SizedBox(height: 20),
-        _heightSelector(),
-        _weightSelector(),
+        _genderIcon(
+          gender: "Male",
+          icon: Icons.male_rounded,
+          isSelected: _selectedGender == 0,
+          onTap: () => setState(() => _selectedGender = 0),
+        ),
+        _genderIcon(
+          gender: "Female",
+          icon: Icons.female_rounded,
+          isSelected: _selectedGender == 1,
+          onTap: () => setState(() => _selectedGender = 1),
+        ),
       ],
     );
   }
 
-  Widget _genderSelector() {
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedGender = 0;
-                  });
-                },
-                iconSize: 70,
-                icon: Icon(
-                  Icons.male_rounded,
-                  color: _selectedGender == 0
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.black,
-                ),
-              ),
-              const Text(
-                "Male",
-                style: TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _selectedGender = 1;
-                  });
-                },
-                iconSize: 70,
-                icon: Icon(
-                  Icons.female_rounded,
-                  color: _selectedGender == 1
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.black,
-                ),
-              ),
-              const Text(
-                "Female",
-                style: TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-        ],
-      ),
+  Widget _genderIcon({
+    required String gender,
+    required IconData icon,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return Column(
+      children: [
+        IconButton(
+          iconSize: 70,
+          icon: Icon(icon, color: isSelected ? Theme.of(context).primaryColor : Colors.black),
+          onPressed: onTap,
+        ),
+        Text(gender, style: const TextStyle(fontSize: 20)),
+      ],
     );
   }
 
   Widget _heightSelector() {
     return Container(
-      color: Colors.grey[300],
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${_height.toStringAsFixed(0)} CM",
+            style: const TextStyle(fontSize: 20),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "${_height.toStringAsFixed(0)} CM",
-                style: const TextStyle(fontSize: 20),
+              Container(
+                height: 320,
+                width: 70,
+                child: SfSlider.vertical(
+                  min: 0.0,
+                  max: 200.0,
+                  value: _height,
+                  interval: 20,
+                  showTicks: true,
+                  showLabels: true,
+                  enableTooltip: true,
+                  minorTicksPerInterval: 1,
+                  onChanged: (dynamic value) {
+                    setState(() {
+                      _height = value;
+                    });
+                  },
+                ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 320,
-                    width: 70,
-                    child: SfSlider.vertical(
-                      min: 0.0,
-                      max: 200.0,
-                      value: _height,
-                      interval: 20,
-                      showTicks: true,
-                      showLabels: true,
-                      enableTooltip: true,
-                      minorTicksPerInterval: 1,
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          _height = value;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 120,
-                  ),
-                  Image.asset(
-                    'lib/images/human_height.png',
-                    height: 320,
-                    fit: BoxFit.cover,
-                  )
-                ],
+              const SizedBox(width: 50),
+              Image.asset(
+                'lib/images/human_height.png',
+                height: 320,
+                fit: BoxFit.cover,
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
 
   Widget _weightSelector() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 100),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "${_weight.toStringAsFixed(0)}KG",
-            style: TextStyle(fontSize: 30),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "${_weight.toStringAsFixed(0)} KG",
+          style: const TextStyle(fontSize: 30),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          height: 50,
+          width: double.infinity,
+          child: SfSlider(
+            min: 0.0,
+            max: 200.0,
+            value: _weight,
+            interval: 20,
+            showTicks: false,
+            showLabels: false,
+            enableTooltip: false,
+            minorTicksPerInterval: 1,
+            onChanged: (dynamic value) {
+              setState(() {
+                _weight = value;
+              });
+            },
           ),
-          Container(
-            height: 50,
-            width: 350,
-            child: SfSlider(
-              min: 0.0,
-              max: 200.0,
-              value: _weight,
-              interval: 20,
-              showTicks: false,
-              showLabels: false,
-              enableTooltip: false,
-              minorTicksPerInterval: 1,
-              onChanged: (dynamic value) {
-                setState(() {
-                  _weight = value;
-                });
-              },
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
+  }
+
+  Widget _calculateButton() {
+    return ElevatedButton(
+      onPressed: _calculateBMI,
+      child: const Text('Calculate BMI'),
+    );
+  }
+
+  void _calculateBMI() {
+    setState(() {
+      _bmi = _weight / ((_height / 100) * (_height / 100));
+    });
   }
 }
