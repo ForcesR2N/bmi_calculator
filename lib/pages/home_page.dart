@@ -10,10 +10,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedGender = 0;
-  double _height = 170.0;
-  double _weight = 50;
-  int _age = 15;
-  double _bmi = 0;
+  double _height = 0.0;
+  double _weight = 0;
+  final int _age = 15;
+  final double _bmi = 0;
 
   @override
   Widget build(BuildContext context) {
