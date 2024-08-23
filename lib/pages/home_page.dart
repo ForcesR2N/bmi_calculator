@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _calculateBMI,
+        onPressed: _bmiResult,
         child: const Icon(
           Icons.calculate,
         ),
@@ -208,21 +208,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _calculateButton() {
-    return ElevatedButton(
-      onPressed: _calculateBMI,
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: _bmiResult,
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          child: const Text('Calculate BMI', style: TextStyle(fontSize: 20)),
         ),
-      ),
-      child: const Text('Calculate BMI', style: TextStyle(fontSize: 20)),
+        const SizedBox(height: 20),
+        _bmiResult(),
+      ],
     );
   }
 
-  void _calculateBMI() {
-    setState(() {
-      _bmi = _weight / ((_height / 100) * (_height / 100));
-    });
+  Widget _bmiResult() {
+    return Text(
+      _bmi == 0 ? '' : "Your BMI is: ${_bmi.toStringAsFixed(2)}",
+      style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+    );
   }
 }
