@@ -14,7 +14,6 @@ class _HomePageState extends State<HomePage> {
   double _weight = 0.0;
   double? _bmi;
 
-  // Helper method to calculate BMI
   void _calculateBMI() {
     if (_height > 0 && _weight > 0) {
       double heightInMeters = _height / 100;
