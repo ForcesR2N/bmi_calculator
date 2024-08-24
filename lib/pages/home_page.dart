@@ -11,9 +11,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedGender = 0;
   double _height = 0.0;
-  double _weight = 0;
-  final int _age = 15;
-  final double _bmi = 0;
+  double _weight = 0.0;
+  double? _bmi; // Use nullable to indicate no calculation yet
+
+  // Helper method to calculate BMI
+  void _calculateBMI() {
+    if (_height > 0 && _weight > 0) {
+      double heightInMeters = _height / 100;
+      setState(() {
+        _bmi = _weight / (heightInMeters * heightInMeters);
+      });
+    } else {
+      setState(() {
+        _bmi = null; // Reset the BMI if inputs are invalid
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,25 +36,19 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
-            children: [
-              _genderSelector(),
-              const SizedBox(height: 20),
-              _heightSelector(),
-              const SizedBox(height: 40),
-              _weightSelector(),
-              const SizedBox(height: 20),
-              _calculateButton(),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _bmiResult,
-        child: const Icon(
-          Icons.calculate,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            _genderSelector(),
+            const SizedBox(height: 20),
+            _heightSelector(),
+            const SizedBox(height: 40),
+            _weightSelector(),
+            const SizedBox(height: 20),
+            _calculateButton(),
+            const SizedBox(height: 20),
+            if (_bmi != null) _bmiResult(),
+          ],
         ),
       ),
     );
@@ -92,9 +99,10 @@ class _HomePageState extends State<HomePage> {
       children: [
         IconButton(
           iconSize: 70,
-          icon: Icon(icon,
-              color:
-                  isSelected ? Theme.of(context).primaryColor : Colors.black),
+          icon: Icon(
+            icon,
+            color: isSelected ? Theme.of(context).primaryColor : Colors.black,
+          ),
           onPressed: onTap,
         ),
         Text(gender, style: const TextStyle(fontSize: 20)),
@@ -183,24 +191,20 @@ class _HomePageState extends State<HomePage> {
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          Container(
-            height: 50,
-            width: double.infinity,
-            child: SfSlider(
-              min: 0.0,
-              max: 200.0,
-              value: _weight,
-              interval: 20,
-              showTicks: false,
-              showLabels: false,
-              enableTooltip: false,
-              minorTicksPerInterval: 1,
-              onChanged: (dynamic value) {
-                setState(() {
-                  _weight = value;
-                });
-              },
-            ),
+          SfSlider(
+            min: 0.0,
+            max: 200.0,
+            value: _weight,
+            interval: 20,
+            showTicks: false,
+            showLabels: false,
+            enableTooltip: false,
+            minorTicksPerInterval: 1,
+            onChanged: (dynamic value) {
+              setState(() {
+                _weight = value;
+              });
+            },
           ),
         ],
       ),
@@ -208,27 +212,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _calculateButton() {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: _bmiResult,
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-          ),
-          child: const Text('Calculate BMI', style: TextStyle(fontSize: 20)),
+    return ElevatedButton(
+      onPressed: _calculateBMI,
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
         ),
-        const SizedBox(height: 20),
-        _bmiResult(),
-      ],
+      ),
+      child: const Text('Calculate BMI', style: TextStyle(fontSize: 20)),
     );
   }
 
   Widget _bmiResult() {
     return Text(
-      _bmi == 0 ? '' : "Your BMI is: ${_bmi.toStringAsFixed(2)}",
+      "Your BMI is: ${_bmi?.toStringAsFixed(2)}",
       style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
     );
   }
