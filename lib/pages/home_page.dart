@@ -12,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedGender = 0;
   double _height = 0.0;
   double _weight = 0.0;
-  double? _bmi; // Use nullable to indicate no calculation yet
+  double? _bmi;
 
   // Helper method to calculate BMI
   void _calculateBMI() {
@@ -21,11 +21,49 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _bmi = _weight / (heightInMeters * heightInMeters);
       });
+      _showBmiResult();
     } else {
       setState(() {
-        _bmi = null; // Reset the BMI if inputs are invalid
+        _bmi = null;
       });
     }
+  }
+
+  void _showBmiResult() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(70.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'BMI Result',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "Your BMI is: ${_bmi?.toStringAsFixed(2)}",
+                  style: const TextStyle(fontSize: 22),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -46,8 +84,6 @@ class _HomePageState extends State<HomePage> {
             _weightSelector(),
             const SizedBox(height: 20),
             _calculateButton(),
-            const SizedBox(height: 20),
-            if (_bmi != null) _bmiResult(),
           ],
         ),
       ),
@@ -221,13 +257,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       child: const Text('Calculate BMI', style: TextStyle(fontSize: 20)),
-    );
-  }
-
-  Widget _bmiResult() {
-    return Text(
-      "Your BMI is: ${_bmi?.toStringAsFixed(2)}",
-      style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
     );
   }
 }
