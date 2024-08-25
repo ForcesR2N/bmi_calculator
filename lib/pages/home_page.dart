@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/component/my_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -204,45 +205,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _weightSelector() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "${_weight.toStringAsFixed(0)} KG",
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          SfSlider(
-            min: 0.0,
-            max: 200.0,
-            value: _weight,
-            interval: 20,
-            showTicks: false,
-            showLabels: false,
-            enableTooltip: false,
-            minorTicksPerInterval: 1,
-            onChanged: (dynamic value) {
-              setState(() {
-                _weight = value;
-              });
-            },
-          ),
-        ],
-      ),
+    return MySlider(
+      weight: _weight,
+      onChanged: (newWeight) {},
+      min: 0.0,
+      max: 200.0,
+      showTicks: false,
+      showLabels: false,
+      enableTooltip: false,
+      height: 320,
+      width: 200,
     );
   }
 
