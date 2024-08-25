@@ -207,7 +207,11 @@ class _HomePageState extends State<HomePage> {
   Widget _weightSelector() {
     return MySlider(
       weight: _weight,
-      onChanged: (newWeight) {},
+      onChanged: (newWeight) {
+        setState(() {
+          _weight = newWeight;
+        });
+      },
       min: 0.0,
       max: 200.0,
       showTicks: false,
