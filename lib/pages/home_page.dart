@@ -147,65 +147,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _heightSelector() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "${_height.toStringAsFixed(0)} CM",
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 320,
-                width: 70,
-                child: SfSlider.vertical(
-                  min: 0.0,
-                  max: 200.0,
-                  value: _height,
-                  interval: 20,
-                  showTicks: true,
-                  showLabels: true,
-                  enableTooltip: true,
-                  minorTicksPerInterval: 1,
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      _height = value;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(width: 50),
-              Image.asset(
-                'lib/images/human_height.png',
-                height: 320,
-                fit: BoxFit.cover,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    return MySlider(
+        weight: _weight,
+        onChanged: (newHeight) {
+          setState(() {
+            _height = newHeight;
+          });
+        },
+        min: 0.0,
+        max: 200.0,
+        showTicks: true,
+        showLabels: true,
+        enableTooltip: true,
+        height: 320,
+        width: double.infinity,
+        isVertical: true,
+        text: "${_height.toStringAsFixed(0)}");
   }
 
   Widget _weightSelector() {
     return MySlider(
+      text: "${_weight.toStringAsFixed(0)} KG",
       weight: _weight,
       onChanged: (newWeight) {
         setState(() {
@@ -217,8 +179,9 @@ class _HomePageState extends State<HomePage> {
       showTicks: false,
       showLabels: false,
       enableTooltip: false,
-      height: 320,
-      width: 200,
+      height: 150,
+      isVertical: true,
+      width: double.infinity,
     );
   }
 
