@@ -148,21 +148,23 @@ class _HomePageState extends State<HomePage> {
 
   Widget _heightSelector() {
     return MySlider(
-        weight: _weight,
-        onChanged: (newHeight) {
-          setState(() {
-            _height = newHeight;
-          });
-        },
-        min: 0.0,
-        max: 200.0,
-        showTicks: true,
-        showLabels: true,
-        enableTooltip: true,
-        height: 320,
-        width: double.infinity,
-        isVertical: true,
-        text: "${_height.toStringAsFixed(0)}");
+      weight: _height,
+      onChanged: (newHeight) {
+        setState(() {
+          _height = newHeight;
+        });
+      },
+      min: 0.0,
+      max: 200.0,
+      showTicks: true,
+      showLabels: true,
+      enableTooltip: true,
+      height: 320,
+      width: double.infinity,
+      isVertical: true,
+      showImage: true,
+      text: "${_height.toStringAsFixed(0)}",
+    );
   }
 
   Widget _weightSelector() {
@@ -180,8 +182,9 @@ class _HomePageState extends State<HomePage> {
       showLabels: false,
       enableTooltip: false,
       height: 150,
-      isVertical: true,
+      isVertical: false,
       width: double.infinity,
+      showImage: false,
     );
   }
 

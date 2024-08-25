@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -12,21 +14,24 @@ class MySlider extends StatelessWidget {
   final double height;
   final double width;
   final bool isVertical;
+  final bool showImage;
   final ValueChanged<double> onChanged;
 
-  const MySlider(
-      {super.key,
-      required this.weight,
-      required this.onChanged,
-      required this.min,
-      required this.max,
-      required this.showTicks,
-      required this.showLabels,
-      required this.enableTooltip,
-      required this.height,
-      required this.width,
-      required this.text,
-      required this.isVertical});
+  const MySlider({
+    super.key,
+    required this.weight,
+    required this.onChanged,
+    required this.min,
+    required this.max,
+    required this.showTicks,
+    required this.showLabels,
+    required this.enableTooltip,
+    required this.height,
+    required this.width,
+    required this.text,
+    required this.isVertical,
+    this.showImage = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,31 +51,58 @@ class MySlider extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          isVertical
-              ? Expanded(
-                  child: SfSlider.vertical(
-                    min: min,
-                    max: max,
-                    value: weight,
-                    interval: 20,
-                    showTicks: showTicks,
-                    showLabels: showLabels,
-                    enableTooltip: enableTooltip,
-                    minorTicksPerInterval: 1,
-                    onChanged: (dynamic value) {
-                      onChanged(value as double);
-                    },
+      child: isVertical
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        text,
+                        style: const TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: height.toDouble(),
+                        child: SfSlider.vertical(
+                          min: min,
+                          max: max,
+                          value: weight,
+                          interval: 20,
+                          showTicks: showTicks,
+                          showLabels: showLabels,
+                          enableTooltip: enableTooltip,
+                          minorTicksPerInterval: 1,
+                          onChanged: (dynamic value) {
+                            onChanged(value as double);
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                )
-              : SfSlider(
+                ),
+                if (showImage) ...[
+                  const SizedBox(width: 16),
+                  Image.asset(
+                    'lib/images/human_height.png',
+                    height: height.toDouble(),
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  style: const TextStyle(
+                      fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                SfSlider(
                   min: min,
                   max: max,
                   value: weight,
@@ -83,8 +115,8 @@ class MySlider extends StatelessWidget {
                     onChanged(value as double);
                   },
                 ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }
