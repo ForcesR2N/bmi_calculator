@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/component/my_gender.dart';
 import 'package:bmi_calculator/component/my_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -89,59 +90,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _genderSelector() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _genderIcon(
-            gender: "Male",
-            icon: Icons.male_rounded,
-            isSelected: _selectedGender == 0,
-            onTap: () => setState(() => _selectedGender = 0),
-          ),
-          _genderIcon(
-            gender: "Female",
-            icon: Icons.female_rounded,
-            isSelected: _selectedGender == 1,
-            onTap: () => setState(() => _selectedGender = 1),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _genderIcon({
-    required String gender,
-    required IconData icon,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return Column(
-      children: [
-        IconButton(
-          iconSize: 70,
-          icon: Icon(
-            icon,
-            color: isSelected ? Theme.of(context).primaryColor : Colors.black,
-          ),
-          onPressed: onTap,
-        ),
-        Text(gender, style: const TextStyle(fontSize: 20)),
-      ],
-    );
+    return MyGender(
+        selectGender: _selectedGender,
+        onGenderSelected: (gender) {
+          setState(() {
+            _selectedGender = gender;
+          });
+        });
   }
 
   Widget _heightSelector() {
