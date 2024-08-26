@@ -1,10 +1,8 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class MySlider extends StatelessWidget {
-  final double weight;
+  final double value;
   final double min;
   final double max;
   final String text;
@@ -19,7 +17,7 @@ class MySlider extends StatelessWidget {
 
   const MySlider({
     super.key,
-    required this.weight,
+    required this.value,
     required this.onChanged,
     required this.min,
     required this.max,
@@ -47,7 +45,7 @@ class MySlider extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -56,31 +54,33 @@ class MySlider extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        text,
-                        style: const TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        height: height.toDouble(),
-                        child: SfSlider.vertical(
-                          min: min,
-                          max: max,
-                          value: weight,
-                          interval: 20,
-                          showTicks: showTicks,
-                          showLabels: showLabels,
-                          enableTooltip: enableTooltip,
-                          minorTicksPerInterval: 1,
-                          onChanged: (dynamic value) {
-                            onChanged(value as double);
-                          },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          text,
+                          style: const TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: SfSlider.vertical(
+                            min: min,
+                            max: max,
+                            value: value,
+                            interval: 20,
+                            showTicks: showTicks,
+                            showLabels: showLabels,
+                            enableTooltip: enableTooltip,
+                            minorTicksPerInterval: 1,
+                            onChanged: (dynamic value) {
+                              onChanged(value as double);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 if (showImage) ...[
@@ -102,18 +102,20 @@ class MySlider extends StatelessWidget {
                       fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                SfSlider(
-                  min: min,
-                  max: max,
-                  value: weight,
-                  interval: 20,
-                  showTicks: showTicks,
-                  showLabels: showLabels,
-                  enableTooltip: enableTooltip,
-                  minorTicksPerInterval: 1,
-                  onChanged: (dynamic value) {
-                    onChanged(value as double);
-                  },
+                Expanded(
+                  child: SfSlider(
+                    min: min,
+                    max: max,
+                    value: value,
+                    interval: 20,
+                    showTicks: showTicks,
+                    showLabels: showLabels,
+                    enableTooltip: enableTooltip,
+                    minorTicksPerInterval: 1,
+                    onChanged: (dynamic value) {
+                      onChanged(value as double);
+                    },
+                  ),
                 ),
               ],
             ),

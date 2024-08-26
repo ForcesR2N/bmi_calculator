@@ -1,6 +1,5 @@
 import 'package:bmi_calculator/component/my_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,9 +16,8 @@ class _HomePageState extends State<HomePage> {
 
   void _calculateBMI() {
     if (_height > 0 && _weight > 0) {
-      double heightInMeters = _height / 100;
       setState(() {
-        _bmi = _weight / (heightInMeters * heightInMeters);
+        _bmi = _weight / (_height * _height) * 10000;
       });
       _showBmiResult();
     } else {
@@ -148,7 +146,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _heightSelector() {
     return MySlider(
-      weight: _height,
+      value: _height,
       onChanged: (newHeight) {
         setState(() {
           _height = newHeight;
@@ -159,18 +157,18 @@ class _HomePageState extends State<HomePage> {
       showTicks: true,
       showLabels: true,
       enableTooltip: true,
-      height: 320,
+      height: 400,
       width: double.infinity,
       isVertical: true,
       showImage: true,
-      text: "${_height.toStringAsFixed(0)}",
+      text: "${_height.toStringAsFixed(0)} CM",
     );
   }
 
   Widget _weightSelector() {
     return MySlider(
+      value: _weight,
       text: "${_weight.toStringAsFixed(0)} KG",
-      weight: _weight,
       onChanged: (newWeight) {
         setState(() {
           _weight = newWeight;
