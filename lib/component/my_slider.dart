@@ -74,6 +74,9 @@ class MySlider extends StatelessWidget {
                             showLabels: showLabels,
                             enableTooltip: enableTooltip,
                             minorTicksPerInterval: 1,
+                            activeColor: Colors.green,
+                            inactiveColor: Colors.grey,
+                            
                             onChanged: (dynamic value) {
                               onChanged(value as double);
                             },
@@ -112,6 +115,8 @@ class MySlider extends StatelessWidget {
                     showLabels: showLabels,
                     enableTooltip: enableTooltip,
                     minorTicksPerInterval: 1,
+                    activeColor: Colors.green,
+                    inactiveColor: Colors.grey,
                     onChanged: (dynamic value) {
                       onChanged(value as double);
                     },

@@ -60,7 +60,7 @@ class MyGender extends StatelessWidget {
           onPressed: onTap,
           icon: Icon(
             icon,
-            color: isSelected ? Theme.of(context).primaryColor : Colors.black,
+            color: isSelected ? Colors.green : Colors.black,
           ),
         ),
         Text(

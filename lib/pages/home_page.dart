@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:bmi_calculator/component/my_gender.dart';
 import 'package:bmi_calculator/component/my_slider.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,16 +14,29 @@ class _HomePageState extends State<HomePage> {
   double _height = 0.0;
   double _weight = 0.0;
   double? _bmi;
+  String? _bmiMessage;
 
   void _calculateBMI() {
     if (_height > 0 && _weight > 0) {
       setState(() {
         _bmi = _weight / (_height * _height) * 10000;
+        if (_bmi == null) {
+          _bmiMessage = "";
+        } else if (_bmi! < 18.5) {
+          _bmiMessage = "Underweight";
+        } else if (_bmi! < 24.9) {
+          _bmiMessage = "Normal";
+        } else if (_bmi! < 29.9) {
+          _bmiMessage = "Overweight";
+        } else {
+          _bmiMessage = "Obesity";
+        }
       });
       _showBmiResult();
     } else {
       setState(() {
         _bmi = null;
+        _bmiMessage = '';
       });
     }
   }
@@ -37,25 +50,48 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(70.0),
+            padding: const EdgeInsets.all(50.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
                   'BMI Result',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   "Your BMI is: ${_bmi?.toStringAsFixed(2)}",
-                  style: const TextStyle(fontSize: 22),
+                  style: const TextStyle(fontSize: 22, color: Colors.black87),
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
+                Text(
+                  _bmiMessage ?? '',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.green, // Gojek green
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(fontSize: 23),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -71,6 +107,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("BMI Calculator"),
         centerTitle: true,
+        backgroundColor: Colors.green, // Gojek green
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -91,12 +128,13 @@ class _HomePageState extends State<HomePage> {
 
   Widget _genderSelector() {
     return MyGender(
-        selectGender: _selectedGender,
-        onGenderSelected: (gender) {
-          setState(() {
-            _selectedGender = gender;
-          });
+      selectGender: _selectedGender,
+      onGenderSelected: (gender) {
+        setState(() {
+          _selectedGender = gender;
         });
+      },
+    );
   }
 
   Widget _heightSelector() {
@@ -134,7 +172,7 @@ class _HomePageState extends State<HomePage> {
       showTicks: false,
       showLabels: false,
       enableTooltip: false,
-      height: 150,
+      height: 120,
       isVertical: false,
       width: double.infinity,
       showImage: false,
@@ -145,6 +183,8 @@ class _HomePageState extends State<HomePage> {
     return ElevatedButton(
       onPressed: _calculateBMI,
       style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green, // Gojek green
+        foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
