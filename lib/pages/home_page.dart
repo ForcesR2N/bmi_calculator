@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "Your BMI is: ${_bmi?.toStringAsFixed(2)}",
+                  "Your BMI is : ${_bmi?.toStringAsFixed(2)}",
                   style: const TextStyle(fontSize: 22, color: Colors.black87),
                 ),
                 const SizedBox(height: 20),
