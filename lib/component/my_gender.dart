@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MyGender extends StatelessWidget {
   final int selectGender;
@@ -65,7 +62,7 @@ class MyGender extends StatelessWidget {
         ),
         Text(
           gender,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         )
       ],
     );
