@@ -76,7 +76,6 @@ class MySlider extends StatelessWidget {
                             minorTicksPerInterval: 1,
                             activeColor: Colors.green,
                             inactiveColor: Colors.grey,
-                            
                             onChanged: (dynamic value) {
                               onChanged(value as double);
                             },
@@ -120,8 +119,14 @@ class MySlider extends StatelessWidget {
                     onChanged: (dynamic value) {
                       onChanged(value as double);
                     },
+                    thumbIcon: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                   ),
-                ),
+                )
               ],
             ),
     );

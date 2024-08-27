@@ -70,9 +70,9 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   _bmiMessage ?? '',
                   style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black54,
-                  ),
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(
                   height: 20,
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.green, // Gojek green
+                      backgroundColor: Colors.green,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("BMI Calculator"),
         centerTitle: true,
-        backgroundColor: Colors.green, // Gojek green
+        backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
       max: 200.0,
       showTicks: true,
       showLabels: true,
-      enableTooltip: true,
+      enableTooltip: false,
       height: 400,
       width: double.infinity,
       isVertical: true,
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
     return ElevatedButton(
       onPressed: _calculateBMI,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green, // Gojek green
+        backgroundColor: Colors.green,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
         shape: RoundedRectangleBorder(
