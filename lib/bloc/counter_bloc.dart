@@ -2,72 +2,32 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'counter_event.dart';
-part 'counter_state.dart';
+part 'counter_state.dart';import 'package:flutter_bloc/flutter_bloc.dart';
+import 'counter_event.dart';
+import 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
-  CounterBloc() : super(CounterInitial()) {
-    on<UpdateHeight>((event, emit) {
-      final currentState = state;
-      if (currentState is CounterUpdated) {
-        emit(CounterUpdated(
-          height: event.height,
-          weight: currentState.weight,
-          selectedGender: currentState.selectedGender,
-          bmi: currentState.bmi,
-          bmiMessage: currentState.bmiMessage,
-        ));
-      } else {
-        emit(CounterUpdated(
-          height: event.height,
-          weight: 0.0,
-          selectedGender: 0,
-        ));
-      }
+  CounterBloc() : super(CounterInitial(height: 0.0, weight: 0.0, selectedGender: 0)) {
+    on<GenderSelectedEvent>((event, emit) {
+      emit(state.copyWith(selectedGender: event.gender));
     });
 
-    on<UpdateWeight>((event, emit) {
-      final currentState = state;
-      if (currentState is CounterUpdated) {
-        emit(CounterUpdated(
-          height: currentState.height,
-          weight: event.weight,
-          selectedGender: currentState.selectedGender,
-          bmi: currentState.bmi,
-          bmiMessage: currentState.bmiMessage,
-        ));
-      } else {
-        emit(CounterUpdated(
-          height: 0.0,
-          weight: event.weight,
-          selectedGender: 0,
-        ));
-      }
+    on<HeightChangedEvent>((event, emit) {
+      emit(state.copyWith(height: event.height));
     });
 
-    on<SelectGender>((event, emit) {
-      final currentState = state;
-      if (currentState is CounterUpdated) {
-        emit(CounterUpdated(
-          height: currentState.height,
-          weight: currentState.weight,
-          selectedGender: event.gender,
-          bmi: currentState.bmi,
-          bmiMessage: currentState.bmiMessage,
-        ));
-      } else {
-        emit(CounterUpdated(
-          height: 0.0,
-          weight: 0.0,
-          selectedGender: event.gender,
-        ));
-      }
+    on<WeightChangedEvent>((event, emit) {
+      emit(state.copyWith(weight: event.weight));
     });
 
-    on<CalculateBMI>((event, emit) {
-      final currentState = state;
-      if (currentState is CounterUpdated) {
-        double bmi = currentState.weight / (currentState.height * currentState.height) * 10000;
+    on<CalculateBmiEvent>((event, emit) {
+      final height = state.height;
+      final weight = state.weight;
+
+      if (height > 0 && weight > 0) {
+        final bmi = weight / (height * height) * 10000;
         String bmiMessage;
+
         if (bmi < 18.5) {
           bmiMessage = "Underweight";
         } else if (bmi < 24.9) {
@@ -78,10 +38,10 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
           bmiMessage = "Obesity";
         }
 
-        emit(CounterUpdated(
-          height: currentState.height,
-          weight: currentState.weight,
-          selectedGender: currentState.selectedGender,
+        emit(CounterBmiCalculated(
+          height: height,
+          weight: weight,
+          selectedGender: state.selectedGender,
           bmi: bmi,
           bmiMessage: bmiMessage,
         ));
