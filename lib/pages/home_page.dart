@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bmi_calculator/component/my_gender.dart';
 import 'package:bmi_calculator/component/my_slider.dart';
+import 'package:bmi_calculator/bloc/counter_bloc.dart';
+import 'package:bmi_calculator/bloc/counter_state.dart';
+import 'package:bmi_calculator/bloc/counter_event.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,92 +14,71 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedGender = 0;
-  double _height = 0.0;
-  double _weight = 0.0;
-  double? _bmi;
-  String? _bmiMessage;
 
-  void _calculateBMI() {
-    if (_height > 0 && _weight > 0) {
-      setState(() {
-        _bmi = _weight / (_height * _height) * 10000;
-        if (_bmi == null) {
-          _bmiMessage = "";
-        } else if (_bmi! < 18.5) {
-          _bmiMessage = "Underweight";
-        } else if (_bmi! < 24.9) {
-          _bmiMessage = "Normal";
-        } else if (_bmi! < 29.9) {
-          _bmiMessage = "Overweight";
-        } else {
-          _bmiMessage = "Obesity";
-        }
-      });
-      _showBmiResult();
-    } else {
-      setState(() {
-        _bmi = null;
-        _bmiMessage = '';
-      });
-    }
-  }
-
-  void _showBmiResult() {
+  void _showBmiResult(BuildContext context) {
+    final bloc = BlocProvider.of<CounterBloc>(context);
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'BMI Result',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87),
+        return BlocBuilder<CounterBloc, CounterState>(
+          builder: (context, state) {
+            if (state is CounterBmiCalculated) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  "Your BMI is : ${_bmi?.toStringAsFixed(2)}",
-                  style: const TextStyle(fontSize: 22, color: Colors.black87),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  _bmiMessage ?? '',
-                  style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.green,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'OK',
-                      style: TextStyle(fontSize: 23),
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'BMI Result',
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Your BMI is : ${state.bmi.toStringAsFixed(2)}",
+                        style: const TextStyle(fontSize: 22, color: Colors.black87),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        state.bmiMessage ?? '',
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.green,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'OK',
+                            style: TextStyle(fontSize: 23),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
         );
       },
     );
@@ -103,24 +86,27 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("BMI Calculator"),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            _genderSelector(),
-            const SizedBox(height: 20),
-            _heightSelector(),
-            const SizedBox(height: 40),
-            _weightSelector(),
-            const SizedBox(height: 20),
-            _calculateButton(),
-          ],
+    return BlocProvider(
+      create: (context) => CounterBloc(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("BMI Calculator"),
+          centerTitle: true,
+          backgroundColor: Colors.green,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            children: [
+              _genderSelector(),
+              const SizedBox(height: 20),
+              _heightSelector(),
+              const SizedBox(height: 40),
+              _weightSelector(),
+              const SizedBox(height: 20),
+              _calculateButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -128,22 +114,18 @@ class _HomePageState extends State<HomePage> {
 
   Widget _genderSelector() {
     return MyGender(
-      selectGender: _selectedGender,
+      selectGender: 0, // Default value
       onGenderSelected: (gender) {
-        setState(() {
-          _selectedGender = gender;
-        });
+        context.read<CounterBloc>().add(GenderSelectedEvent(gender));
       },
     );
   }
 
   Widget _heightSelector() {
     return MySlider(
-      value: _height,
+      value: 0.0,
       onChanged: (newHeight) {
-        setState(() {
-          _height = newHeight;
-        });
+        context.read<CounterBloc>().add(HeightChangedEvent(newHeight));
       },
       min: 0.0,
       max: 200.0,
@@ -154,18 +136,16 @@ class _HomePageState extends State<HomePage> {
       width: double.infinity,
       isVertical: true,
       showImage: true,
-      text: "${_height.toStringAsFixed(0)} CM",
+      text: "${context.read<CounterBloc>().state.height.toStringAsFixed(0)} CM",
     );
   }
 
   Widget _weightSelector() {
     return MySlider(
-      value: _weight,
-      text: "${_weight.toStringAsFixed(0)} KG",
+      value: 0.0,
+      text: "${context.read<CounterBloc>().state.weight.toStringAsFixed(0)} KG",
       onChanged: (newWeight) {
-        setState(() {
-          _weight = newWeight;
-        });
+        context.read<CounterBloc>().add(WeightChangedEvent(newWeight));
       },
       min: 0.0,
       max: 200.0,
@@ -181,7 +161,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _calculateButton() {
     return ElevatedButton(
-      onPressed: _calculateBMI,
+      onPressed: () {
+        context.read<CounterBloc>().add(CalculateBmiEvent());
+        _showBmiResult(context);
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,

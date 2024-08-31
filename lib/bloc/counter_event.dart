@@ -1,21 +1,21 @@
-part of 'counter_bloc.dart';
+abstract class CounterEvent {}
 
-@immutable
-sealed class CounterEvent {}
-
-class UpdateHeight extends CounterEvent {
-  final double height;
-  UpdateHeight(this.height);
-}
-
-class UpdateWeight extends CounterEvent {
-  final double weight;
-  UpdateWeight(this.weight);
-}
-
-class SelectGender extends CounterEvent {
+class GenderSelectedEvent extends CounterEvent {
   final int gender;
-  SelectGender(this.gender);
+
+  GenderSelectedEvent(this.gender);
 }
 
-class CalculateBMI extends CounterEvent {}
+class HeightChangedEvent extends CounterEvent {
+  final double height;
+
+  HeightChangedEvent(this.height);
+}
+
+class WeightChangedEvent extends CounterEvent {
+  final double weight;
+
+  WeightChangedEvent(this.weight);
+}
+
+class CalculateBmiEvent extends CounterEvent {}
