@@ -1,6 +1,7 @@
 import 'package:bmi_calculator/bloc/counter_bloc.dart';
 import 'package:bmi_calculator/bloc/counter_event.dart';
 import 'package:bmi_calculator/bloc/counter_state.dart';
+import 'package:bmi_calculator/component/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bmi_calculator/component/my_gender.dart';
@@ -149,7 +150,7 @@ class HomePage extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.green,
+                        backgroundColor: AppColor.mainColor,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();

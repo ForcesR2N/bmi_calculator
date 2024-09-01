@@ -58,7 +58,7 @@ class MyGender extends StatelessWidget {
           onPressed: onTap,
           icon: Icon(
             icon,
-            color: isSelected ? AppColor.mainColor : Colors.black,
+            color: isSelected ? AppColor.mainColor : AppColor.textColor,
           ),
         ),
         Text(
