@@ -13,7 +13,7 @@ class MyGender extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -38,7 +38,19 @@ class MyGender extends StatelessWidget {
               gender: "Female",
               icon: Icons.female,
               isSelected: selectGender == 1,
-              onTap: () => onGenderSelected(1))
+              onTap: () => onGenderSelected(1)),
+          _genderIcon(
+              context: context,
+              gender: "Transgender",
+              icon: AppColor.transgender_sharp,
+              isSelected: selectGender == 2,
+              onTap: () => onGenderSelected(2)),
+          _genderIcon(
+              context: context,
+              gender: "Bluetooth",
+              icon: AppColor.bluetooth,
+              isSelected: selectGender == 3,
+              onTap: () => onGenderSelected(3))
         ],
       ),
     );
@@ -54,7 +66,7 @@ class MyGender extends StatelessWidget {
     return Column(
       children: [
         IconButton(
-          iconSize: 70,
+          iconSize: 55,
           onPressed: onTap,
           icon: Icon(
             icon,
@@ -63,7 +75,7 @@ class MyGender extends StatelessWidget {
         ),
         Text(
           gender,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 17),
         )
       ],
     );

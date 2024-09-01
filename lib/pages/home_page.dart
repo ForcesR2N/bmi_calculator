@@ -14,9 +14,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BMI Calculator"),
+        title: const Text(
+          "BMI CALCULATOR",
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: AppColor.textColor),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: AppColor.mainColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -95,7 +99,7 @@ class HomePage extends StatelessWidget {
         _showBmiResult(context);
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
+        backgroundColor: AppColor.mainColor,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
         shape: RoundedRectangleBorder(
@@ -127,7 +131,7 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87),
+                        color: AppColor.textColor),
                   ),
                   const SizedBox(height: 20),
                   Text(
