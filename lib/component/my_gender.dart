@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/component/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class MyGender extends StatelessWidget {
@@ -57,7 +58,7 @@ class MyGender extends StatelessWidget {
           onPressed: onTap,
           icon: Icon(
             icon,
-            color: isSelected ? Colors.green : Colors.black,
+            color: isSelected ? AppColor.mainColor : Colors.black,
           ),
         ),
         Text(

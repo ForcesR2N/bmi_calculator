@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/component/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -74,7 +75,7 @@ class MySlider extends StatelessWidget {
                             showLabels: showLabels,
                             enableTooltip: enableTooltip,
                             minorTicksPerInterval: 1,
-                            activeColor: Colors.green,
+                            activeColor: AppColor.mainColor,
                             inactiveColor: Colors.grey,
                             onChanged: (dynamic value) {
                               onChanged(value as double);
@@ -114,14 +115,14 @@ class MySlider extends StatelessWidget {
                     showLabels: showLabels,
                     enableTooltip: enableTooltip,
                     minorTicksPerInterval: 1,
-                    activeColor: Colors.green,
+                    activeColor: AppColor.mainColor,
                     inactiveColor: Colors.grey,
                     onChanged: (dynamic value) {
                       onChanged(value as double);
                     },
                     thumbIcon: Container(
                       decoration: const BoxDecoration(
-                        color: Colors.green,
+                        color: AppColor.mainColor,
                         shape: BoxShape.circle,
                       ),
                     ),
