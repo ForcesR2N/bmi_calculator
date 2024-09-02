@@ -88,10 +88,13 @@ class MySlider extends StatelessWidget {
                 ),
                 if (showImage) ...[
                   const SizedBox(width: 16),
-                  Image.asset(
-                    'lib/images/human_height.png',
-                    height: height.toDouble(),
-                    fit: BoxFit.cover,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Image.asset(
+                      'lib/images/human_height.png',
+                      height: height.toDouble(),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ],
               ],

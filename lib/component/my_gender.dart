@@ -41,16 +41,10 @@ class MyGender extends StatelessWidget {
               onTap: () => onGenderSelected(1)),
           _genderIcon(
               context: context,
-              gender: "Transgender",
-              icon: AppColor.transgender_sharp,
-              isSelected: selectGender == 2,
-              onTap: () => onGenderSelected(2)),
-          _genderIcon(
-              context: context,
               gender: "Bluetooth",
               icon: AppColor.bluetooth,
-              isSelected: selectGender == 3,
-              onTap: () => onGenderSelected(3))
+              isSelected: selectGender == 2,
+              onTap: () => onGenderSelected(2))
         ],
       ),
     );
